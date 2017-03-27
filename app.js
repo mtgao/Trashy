@@ -1,5 +1,26 @@
 var app = angular.module('Trashy', ['ui.router']);
 
+app.config([
+'$stateProvider',
+'$urlRouterProvider',
+function($stateProvider, $urlRouterProvider) {
+    $stateProvider
+        .state('home', {
+            url: '/home',
+            templateUrl: '/home.html',
+            controller: 'MainCtrl'
+        })
+
+        .state('trends', {
+            url: '/trends',
+            templateUrl: '/trends.html',
+            controller: 'TrendsCtrl'
+        });  
+
+    // default url
+    $urlRouterProvider.otherwise('home');
+}]);
+
 app.factory('dataSample', [function(){
     var o = {
         dataSample: []
@@ -34,3 +55,11 @@ function($scope, dataSample){
         $scope.level = '';
     };
 }]);
+
+app.controller('TrendsCtrl', [
+'$scope',
+'dataSample',
+function($scope, $stateParams, dataSample) {
+
+}]);
+
