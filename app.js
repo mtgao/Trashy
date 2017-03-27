@@ -1,4 +1,4 @@
-var app = angular.module('Trashy', []);
+var app = angular.module('Trashy', ['ui.router']);
 
 app.factory('dataSample', [function(){
     var o = {
