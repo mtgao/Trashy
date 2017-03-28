@@ -10,21 +10,28 @@ function($stateProvider, $urlRouterProvider) {
             templateUrl: '/home.html',
             controller: 'MainCtrl'
         })
-
-        .state('trends', {
-            url: '/trends',
-            templateUrl: '/trends.html',
-            controller: 'TrendsCtrl'
-        });  
-
     // default url
     $urlRouterProvider.otherwise('home');
 }]);
 
-app.factory('dataSample', [function(){
+app.factory('dataSample', ['$http', function($http){
     var o = {
         dataSample: []
     };
+
+    o.getAll = function() {
+        return $http.get('/data').success(function (data) {
+            angular.copy(data, o.dataSample);
+        });
+    };
+
+    o.create = function(data) {
+        return $http.post('/data', data).success(function (data) {
+            o.dataSample.push(data);
+        }); 
+            
+    };
+    
     return o;
 }]);
 
@@ -32,14 +39,9 @@ app.controller('MainCtrl', [
 '$scope',
 'dataSample',
 function($scope, dataSample){
-    $scope.test = 'Trash Level Sample:';
     $scope.dataSample = dataSample.dataSample;
-
-    // format for data samples
-    $scope.dataSample = [
-        {title: 'data', level: 10},
-        {title: 'data', level: 30}
-    ];
+    dataSample.getAll();
+    
 
     // function to manually add data sample
     $scope.addData = function(){
@@ -47,19 +49,12 @@ function($scope, dataSample){
         if(!$scope.level || $scope.level === '') {
             return;
         }
-
-        // push entry into our dataSample
-        $scope.dataSample.push({title: 'data', level: $scope.level});
-        
+       
+        dataSample.create({
+            trash_level: $scope.level,
+        });
         // reset title after entry added
         $scope.level = '';
     };
-}]);
-
-app.controller('TrendsCtrl', [
-'$scope',
-'dataSample',
-function($scope, $stateParams, dataSample) {
-
 }]);
 
