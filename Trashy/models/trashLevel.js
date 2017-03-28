@@ -2,12 +2,10 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var trashLevelSchema = Schema(
-    {
-        trash_level = {type: String, required: true, max: 3},
-        time_stamp = {type: Date, default: Date.now},
-    }
-);
+var trashLevelSchema = Schema({
+    trash_level: {type: String, required: true}, 
+    time_stamp: {type: Date, default: Date.now},
+});
 
 trashLevelSchema
 .virtual('level')
@@ -16,7 +14,7 @@ trashLevelSchema
 });
 
 trashLevelSchema
-.virtual('time_stamp')
+.virtual('time')
 .get(function() {
     return this.time_stamp;
 }); 
