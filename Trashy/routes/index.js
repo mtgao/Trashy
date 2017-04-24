@@ -7,4 +7,8 @@ router.get('/', function(req, res) {
     res.render('index');
 });
 
+router.get('/trends', function(req, res) {
+    res.render('trends');
+});
+
 module.exports = router;

@@ -3,8 +3,12 @@
         <title> Trash </title>
 
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css"/>
         <script src="https:/ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+        <script src="https://rawgit.com/krispo/angular-nvd3/v1.0.4/dist/angular-nvd3.js"></script>
         <script src="/javascripts/angularApp.js"></script>
     </head>
     
@@ -39,9 +43,14 @@
 
     <script type="text/ng-template" id="/trends.html">
         <div class="page-header">
-            <h1> Trends </h1>
+            <h2> Trends </h1>
+        </div>
+        <div ng-controller="PlotCtrl">
+            <p> duration: 1000</p>
+            <nvd3 options="options" data="data"></nvd3>
         </div>
     </script> 
+
     </body>
 </html>
 
