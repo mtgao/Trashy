@@ -31,16 +31,6 @@ app.factory('dataSample', ['$http', function($http){
         });
     };
 
-    o.getArray = function() {
-        var j = 0;
-   /*     for(var i = 0; i < o.dataSample.length; i++) {
-            j++
-            return o.dataSample[i];
-        }
-        alert(j)*/
-        return o.dataSample;
-    };
-
     o.create = function(data) {
         return $http.post('/data', data).success(function (data) {
             o.dataSample.push(data);
