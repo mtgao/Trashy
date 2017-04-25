@@ -2,17 +2,39 @@
     <head>
         <title> Trash </title>
 
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> 
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css"/>
         <script src="https:/ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.js"></script> 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
         <script src="https://rawgit.com/krispo/angular-nvd3/v1.0.4/dist/angular-nvd3.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+
         <script src="/javascripts/angularApp.js"></script>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
     </head>
     
     <body ng-app="Trashy">
+    <div class="sidebar-nav">
+    <div class="navbar navbar-default" role="navigation">
+        <a class="navbar-brand" href="#">Trash</a>
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true">Trends
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Daily</a></li>
+                    <li><a href="#">Weekly</a></li>
+                    <li><a href="#">Monthly</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    </div>
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <ui-view></ui-view>
@@ -46,7 +68,6 @@
             <h2> Trends </h1>
         </div>
         <div ng-controller="PlotCtrl">
-            <p> duration: 1000</p>
             <nvd3 options="options" data="data"></nvd3>
         </div>
     </script> 

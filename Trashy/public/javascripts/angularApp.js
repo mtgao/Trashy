@@ -46,13 +46,7 @@ app.controller('MainCtrl', [
 'dataSample',
 function($scope, dataSample){
     $scope.dataSample = dataSample.dataSample;
-    dataSample.getAll().then(function(result) {
-        var l = dataSample.dataSample;
-        alert(l.length)
-        for (v in dataSample.dataSample) {
-            alert(v.trash_level);
-        }
-    });
+    dataSample.getAll();
     
     // function to manually add data sample
     $scope.addData = function(){
@@ -78,18 +72,23 @@ function($scope, dataSample) {
     $scope.options = {
         chart: {
             type: 'lineChart',
+            forceY: [0,100],
             height: 450,
             margin: {
                 top: 20,
-                right: 20,
+                right: 55,
                 bottom: 40,
                 left: 55
             },
-            x: function(d){ return d.x; },
+            x: function(d){ 
+                return d.x; },
             y: function(d){ return d.y; },
             useInteractiveGuideline: true, 
             xAxis: {
-                axisLabel: 'Date'
+                axisLabel: 'Date',
+                tickFormat: function(d) {
+                    return d3.time.format('%d %X')(new Date(d));
+                }
             },
             yAxis: {
                 axisLabel: 'Trash Level (%)',
@@ -110,8 +109,19 @@ function($scope, dataSample) {
 
     dataSample.getAll().then(function(result) {
         var d = dataSample.dataSample;
+        /*
+        console.log(d[0].time_stamp);
+        console.log(d[0].time_stamp.substring(0,10));
+        console.log(d[0].time_stamp.substring(5,7));
+        console.log(d[0].time_stamp.substring(8,10));
+        console.log(d[0].time_stamp.substring(11,19));
+        console.log(d[0].time_stamp.substring(14,16));
+        console.log(d[0].time_stamp.substring(17,19));*/
         for (var i =0; i < d.length; i++) {
-            $scope.data[0].values.push({x: i, y: d[i].trash_level});
+            if(i < 20) {
+            console.log(d[i].time_stamp.substring(11,19))
+            $scope.data[0].values.push({x: new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19)), y: d[i].trash_level});
+            }
         }
     });
 }]);
