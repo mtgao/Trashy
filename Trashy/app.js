@@ -17,6 +17,7 @@ var mongoose = require('mongoose');
 var mongoDB = 'mongodb://localhost/data'; 
 mongoose.connect(mongoDB);
 var db = mongoose.connection;
+//db.dropDatabase();
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // view engine setup

@@ -1,5 +1,6 @@
 var app = angular.module('Trashy', ['ui.router','nvd3']);
 var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var offset = new Date().getTimezoneOffset();
 
 app.config([
 '$stateProvider',
@@ -117,6 +118,11 @@ function($scope, dataSample) {
        
     $scope.data = [{values: [], key: 'Trash level'}];
 
+    var date = new Date();
+    var prevDate = new Date();
+    prevDate.setDate(prevDate.getDate()-7);
+    $scope.date = (prevDate.getMonth()+1).toString() + '/' + prevDate.getDate().toString() + ' - ' + (date.getMonth()+1).toString() + '/' + date.getDate().toString();
+
     dataSample.getAll().then(function(result) {
         /*
         console.log(d[0].time_stamp);
@@ -127,11 +133,13 @@ function($scope, dataSample) {
         console.log(d[0].time_stamp.substring(14,16));
         console.log(d[0].time_stamp.substring(17,19));*/
         var d = dataSample.dataSample;
-        var date = new Date();
         var day = date.getDate(); 
         for (var i =0; i < d.length; i++) {
-            if(parseInt(d[i].time_stamp.substring(8,10)) >= (day-7)) {
-            $scope.data[0].values.push({x: new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19)), y: d[i].trash_level});
+            var tempDate = new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19));
+            tempDate.setMinutes(tempDate.getMinutes()-offset);
+            if(tempDate >= prevDate) {
+
+                $scope.data[0].values.push({x: new Date(tempDate.getTime()), y: d[i].trash_level});
             }
         }
     });
@@ -180,6 +188,7 @@ function($scope, dataSample) {
     var date = new Date();
     var day = date.getDate();
     var month = date.getMonth()+1; 
+     
     
     $scope.date = month.toString() + '/' + day.toString();
 
@@ -187,11 +196,32 @@ function($scope, dataSample) {
     dataSample.getAll().then(function(result) {
         var d = dataSample.dataSample;
         for (var i =0; i < d.length; i++) {
-            if(parseInt(d[i].time_stamp.substring(8,10)) == day) {
-            $scope.data[0].values.push({x: new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19)), y: d[i].trash_level});
+            var tempDate = new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19));
+            tempDate.setMinutes(tempDate.getMinutes()-offset);
+            if(tempDate.getDate() == day) {
+                $scope.data[0].values.push({x: new Date(tempDate.getTime()), y: d[i].trash_level});
             }
         }
     });
+
+    setInterval(function() {
+        
+    /*dataSample.getAll().then(function(result) {
+        var d = dataSample.dataSample;
+        $scope.data[0].values = [];
+        for (var i =0; i < d.length; i++) {
+            var tempDate = new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19));
+            tempDate.setMinutes(tempDate.getMinutes()-offset);
+            if(tempDate.getDate() == day) {
+                $scope.data[0].values.push({x: new Date(tempDate.getTime()), y: d[i].trash_level});
+            }
+        }
+    });*/
+    dataSample.create({
+        trash_level: Math.floor(Math.random()*100),
+    });
+
+    }, 1000); 
 }]);
 
 app.controller('MonthPlotCtrl', [
@@ -240,12 +270,12 @@ function($scope, dataSample) {
 
     dataSample.getAll().then(function(result) {
         var d = dataSample.dataSample;
-        var date = new Date();
-        var month = date.getMonth()+1;
-        console.log(month);
+        var month = date.getMonth();
         for (var i =0; i < d.length; i++) {
-            if(parseInt(d[i].time_stamp.substring(5,7)) == month) {
-            $scope.data[0].values.push({x: new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19)), y: d[i].trash_level});
+            var tempDate = new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19));
+            tempDate.setMinutes(tempDate.getMinutes()-offset);
+            if(tempDate.getMonth() == month) {
+                $scope.data[0].values.push({x: new Date(tempDate.getTime()), y: d[i].trash_level});
             }
         }
     });
