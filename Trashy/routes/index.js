@@ -7,8 +7,16 @@ router.get('/', function(req, res) {
     res.render('index');
 });
 
-router.get('/trends', function(req, res) {
-    res.render('trends');
+router.get('/monthly-trends', function(req, res) {
+    res.render('monthly-trends');
+});
+
+router.get('/weekly-trends', function(req, res) {
+    res.render('weekly-trends');
+});
+
+router.get('/daily-trends', function(req, res) {
+    res.render('daily-trends');
 });
 
 module.exports = router;

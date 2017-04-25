@@ -11,11 +11,24 @@ function($stateProvider, $urlRouterProvider) {
             controller: 'MainCtrl'
         })
 
-        .state('trends', {
-            url: '/trends',
-            templateUrl: '/trends.html',
-            controller: 'PlotCtrl'
+        .state('monthly-trends', {
+            url: '/monthly-trends',
+            templateUrl: '/monthly-trends.html',
+            controller: 'MonthPlotCtrl'
+        })
+
+        .state('weekly-trends', {
+            url: '/weekly-trends',
+            templateUrl: '/weekly-trends.html',
+            controller: 'WeekPlotCtrl'
+        })
+
+        .state('daily-trends', {
+            url: '/daily-trends',
+            templateUrl: '/daily-trends.html',
+            controller: 'DayPlotCtrl'
         });
+
     // default url
     $urlRouterProvider.otherwise('home');
 }]);
@@ -63,7 +76,7 @@ function($scope, dataSample){
     };
 }]);
 
-app.controller('PlotCtrl', [
+app.controller('WeekPlotCtrl', [
 '$scope',
 'dataSample',
 function($scope, dataSample) {
@@ -97,10 +110,6 @@ function($scope, dataSample) {
                 },
                 axisLabelDistance: -10
             }
-        },
-        title: {
-            enable: true,
-            text: 'Weekly Trash Level'
         }
     };
 
@@ -126,3 +135,104 @@ function($scope, dataSample) {
     });
 }]);
 
+app.controller('DayPlotCtrl', [
+'$scope',
+'dataSample',
+function($scope, dataSample) {
+    $scope.dataSample = dataSample.dataSample; 
+
+    $scope.options = {
+        chart: {
+            type: 'lineChart',
+            forceY: [0,100],
+            height: 450,
+            margin: {
+                top: 20,
+                right: 55,
+                bottom: 40,
+                left: 55
+            },
+            x: function(d){ 
+                return d.x; },
+            y: function(d){ return d.y; },
+            useInteractiveGuideline: true, 
+            xAxis: {
+                axisLabel: 'Date',
+                tickFormat: function(d) {
+                    return d3.time.format('%d %X')(new Date(d));
+                }
+            },
+            yAxis: {
+                axisLabel: 'Trash Level (%)',
+                tickFormat: function(d){
+                    return d3.format('.01f')(d);
+                },
+                axisLabelDistance: -10
+            }
+        }
+    };
+
+       
+    $scope.data = [{values: [], key: 'Trash level'}];
+
+    dataSample.getAll().then(function(result) {
+        var d = dataSample.dataSample;
+        for (var i =0; i < d.length; i++) {
+            if(i < 20) {
+            console.log(d[i].time_stamp.substring(11,19))
+            $scope.data[0].values.push({x: new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19)), y: d[i].trash_level});
+            }
+        }
+    });
+}]);
+
+app.controller('MonthPlotCtrl', [
+'$scope',
+'dataSample',
+function($scope, dataSample) {
+    $scope.dataSample = dataSample.dataSample; 
+
+    $scope.options = {
+        chart: {
+            type: 'lineChart',
+            forceY: [0,100],
+            height: 450,
+            margin: {
+                top: 20,
+                right: 55,
+                bottom: 40,
+                left: 55
+            },
+            x: function(d){ 
+                return d.x; },
+            y: function(d){ return d.y; },
+            useInteractiveGuideline: true, 
+            xAxis: {
+                axisLabel: 'Date',
+                tickFormat: function(d) {
+                    return d3.time.format('%d %X')(new Date(d));
+                }
+            },
+            yAxis: {
+                axisLabel: 'Trash Level (%)',
+                tickFormat: function(d){
+                    return d3.format('.01f')(d);
+                },
+                axisLabelDistance: -10
+            }
+        }
+    };
+
+       
+    $scope.data = [{values: [], key: 'Trash level'}];
+
+    dataSample.getAll().then(function(result) {
+        var d = dataSample.dataSample;
+        for (var i =0; i < d.length; i++) {
+            if(i < 20) {
+            console.log(d[i].time_stamp.substring(11,19))
+            $scope.data[0].values.push({x: new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19)), y: d[i].trash_level});
+            }
+        }
+    });
+}]);
