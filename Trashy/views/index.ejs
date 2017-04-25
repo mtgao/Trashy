@@ -20,7 +20,7 @@
     <body ng-app="Trashy">
     <div class="sidebar-nav">
     <div class="navbar navbar-default" role="navigation">
-        <a class="navbar-brand" href="#">Autonomous Trash</a>
+        <a class="navbar-brand" href="#">Trash Market</a>
         <ul class="nav navbar-nav">
             <li><a href="#">Raw Data</a></li> 
             <li class="dropdown">
@@ -77,6 +77,7 @@
         <div class="page-header">
             <h2> Daily Trends </h1>
         </div>
+        <h3>{{date}}</h3>
         <div ng-controller="DayPlotCtrl">
             <nvd3 options="options" data="data"></nvd3>
         </div>
@@ -86,6 +87,7 @@
         <div class="page-header">
             <h2> Monthly Trends </h1>
         </div>
+        <h3>{{date}}</h3>
         <div ng-controller="MonthPlotCtrl">
             <nvd3 options="options" data="data"></nvd3>
         </div>

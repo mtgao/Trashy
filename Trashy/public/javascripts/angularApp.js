@@ -1,4 +1,5 @@
 var app = angular.module('Trashy', ['ui.router','nvd3']);
+var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 app.config([
 '$stateProvider',
@@ -117,7 +118,6 @@ function($scope, dataSample) {
     $scope.data = [{values: [], key: 'Trash level'}];
 
     dataSample.getAll().then(function(result) {
-        var d = dataSample.dataSample;
         /*
         console.log(d[0].time_stamp);
         console.log(d[0].time_stamp.substring(0,10));
@@ -126,9 +126,11 @@ function($scope, dataSample) {
         console.log(d[0].time_stamp.substring(11,19));
         console.log(d[0].time_stamp.substring(14,16));
         console.log(d[0].time_stamp.substring(17,19));*/
+        var d = dataSample.dataSample;
+        var date = new Date();
+        var day = date.getDate(); 
         for (var i =0; i < d.length; i++) {
-            if(i < 20) {
-            console.log(d[i].time_stamp.substring(11,19))
+            if(parseInt(d[i].time_stamp.substring(8,10)) >= (day-7)) {
             $scope.data[0].values.push({x: new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19)), y: d[i].trash_level});
             }
         }
@@ -175,11 +177,17 @@ function($scope, dataSample) {
        
     $scope.data = [{values: [], key: 'Trash level'}];
 
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth()+1; 
+    
+    $scope.date = month.toString() + '/' + day.toString();
+
+
     dataSample.getAll().then(function(result) {
         var d = dataSample.dataSample;
         for (var i =0; i < d.length; i++) {
-            if(i < 20) {
-            console.log(d[i].time_stamp.substring(11,19))
+            if(parseInt(d[i].time_stamp.substring(8,10)) == day) {
             $scope.data[0].values.push({x: new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19)), y: d[i].trash_level});
             }
         }
@@ -226,11 +234,17 @@ function($scope, dataSample) {
        
     $scope.data = [{values: [], key: 'Trash level'}];
 
+    var date = new Date();
+    
+    $scope.date = monthNames[date.getMonth()];
+
     dataSample.getAll().then(function(result) {
         var d = dataSample.dataSample;
+        var date = new Date();
+        var month = date.getMonth()+1;
+        console.log(month);
         for (var i =0; i < d.length; i++) {
-            if(i < 20) {
-            console.log(d[i].time_stamp.substring(11,19))
+            if(parseInt(d[i].time_stamp.substring(5,7)) == month) {
             $scope.data[0].values.push({x: new Date(d[i].time_stamp.substring(0,10) + ' ' + d[i].time_stamp.substring(11,19)), y: d[i].trash_level});
             }
         }
