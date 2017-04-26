@@ -192,7 +192,6 @@ function($scope, dataSample) {
     
     $scope.date = month.toString() + '/' + day.toString();
 
-
     dataSample.getAll().then(function(result) {
         var d = dataSample.dataSample;
         for (var i =0; i < d.length; i++) {
@@ -203,10 +202,10 @@ function($scope, dataSample) {
             }
         }
     });
-
+/*
     setInterval(function() {
         
-    /*dataSample.getAll().then(function(result) {
+    dataSample.getAll().then(function(result) {
         var d = dataSample.dataSample;
         $scope.data[0].values = [];
         for (var i =0; i < d.length; i++) {
@@ -216,12 +215,12 @@ function($scope, dataSample) {
                 $scope.data[0].values.push({x: new Date(tempDate.getTime()), y: d[i].trash_level});
             }
         }
-    });*/
+    });
     dataSample.create({
         trash_level: Math.floor(Math.random()*100),
     });
 
-    }, 1000); 
+    }, 5000); */
 }]);
 
 app.controller('MonthPlotCtrl', [
